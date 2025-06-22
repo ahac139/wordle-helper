@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wordle Helper</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Wordle Helper</h1>
+  <p>Enter a 5-letter word and select each letter's color (grey, yellow, green). Then click "Add Guess".</p>
+
+  <div id="guessEntry">
+    <input type="text" id="guessInput" maxlength="5" placeholder="Enter guess (5 letters)" autofocus />
+    <div id="colorSelectors">
+      <select class="colorSelect">
+        <option value="grey">Grey</option>
+        <option value="yellow">Yellow</option>
+        <option value="green">Green</option>
+      </select>
+      <select class="colorSelect">
+        <option value="grey">Grey</option>
+        <option value="yellow">Yellow</option>
+        <option value="green">Green</option>
+      </select>
+      <select class="colorSelect">
+        <option value="grey">Grey</option>
+        <option value="yellow">Yellow</option>
+        <option value="green">Green</option>
+      </select>
+      <select class="colorSelect">
+        <option value="grey">Grey</option>
+        <option value="yellow">Yellow</option>
+        <option value="green">Green</option>
+      </select>
+      <select class="colorSelect">
+        <option value="grey">Grey</option>
+        <option value="yellow">Yellow</option>
+        <option value="green">Green</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="guesses"></div>
+  <button id="addGuess">Add Guess</button>
+  <button id="analyze">Analyze</button>
+  <button id="clearBtn">Clear Guesses</button>
+
+  <h2>Letter Frequencies by Position</h2>
+  <div id="positionFreqContainer">
+    <div class="positionFreq" id="pos0"><h3>P1</h3><div class="freqList"></div></div>
+    <div class="positionFreq" id="pos1"><h3>P2</h3><div class="freqList"></div></div>
+    <div class="positionFreq" id="pos2"><h3>P3</h3><div class="freqList"></div></div>
+    <div class="positionFreq" id="pos3"><h3>P4</h3><div class="freqList"></div></div>
+    <div class="positionFreq" id="pos4"><h3>P5</h3><div class="freqList"></div></div>
+  </div>
+
+  <h2>Letter Freq Chart</h2>
+  <canvas id="letterFreqChart" width="400" height="200"></canvas>
+
+  <h2>Raw Letter Frequencies</h2>
+  <ul id="letterFreq"></ul>
+
+  <h2>Possible Answers: <span id="answerCount">0</span></h2>
+  <ul id="possibleAnswers"></ul>
+
+  <script type="module" src="main.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>

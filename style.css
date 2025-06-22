@@ -1,0 +1,68 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  max-width: 600px;
+}
+
+input {
+  font-size: 1.2em;
+  padding: 6px;
+  width: 200px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  font-size: 1em;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  font-size: 1.1em;
+  margin-bottom: 4px;
+}
+
+#positionFreqContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.positionFreq {
+  flex: 1;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  border-radius: 8px;
+  width: 120px;
+  max-width: 140px;
+}
+
+.positionFreq h3 {
+  text-align: center;
+  margin: 0.25rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.freqRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+  font-family: monospace;
+}
+
+.freqRow span.letter {
+  width: 20px;
+  text-align: right;
+  margin-right: 4px;
+}
+
+.freqRow .bar {
+  height: 10px;
+  background: #3498db;
+  border-radius: 3px;
+}
