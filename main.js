@@ -167,8 +167,9 @@ function updateDisplay() {
   // Setup possible answers HTML element
   possibleAnswersEl.innerHTML = possibleAnswers
     .slice(0, maxShow)
-    .map(w => `<li>${w}</li>`)
-    .join('');
+    .map(w => `<span class="answerWord">${w}</span>`)
+    .join(' ');
+
   // Setup answer count
   answerCountEl.textContent = possibleAnswers.length;
   
