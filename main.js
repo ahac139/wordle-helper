@@ -7,7 +7,6 @@ const colorSelects = document.querySelectorAll('.colorSelect');
 const guessList = document.getElementById('guesses');
 const possibleAnswersEl = document.getElementById('possibleAnswers');
 const answerCountEl = document.getElementById('answerCount');
-const letterFreqEl = document.getElementById('letterFreq');
 const clearBtn = document.getElementById('clearBtn');
 const addGuessBtn = document.getElementById('addGuess');
 
@@ -179,11 +178,7 @@ function updateDisplay() {
   const sortedFreq = Object.fromEntries(sorted);
   drawLetterFrequencyChart(sortedFreq)
 
-  // Setup 
-  letterFreqEl.innerHTML = sorted
-    .map(([letter, count]) => `<li>${letter.toUpperCase()}: ${count}</li>`)
-    .join('');
 
-    const posFreq = countPositionFrequencies(possibleAnswers);
-    drawPositionFrequencies(posFreq); // Draw frequency graphs
+  const posFreq = countPositionFrequencies(possibleAnswers);
+  drawPositionFrequencies(posFreq); // Draw frequency graphs
 }
