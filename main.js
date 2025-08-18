@@ -10,7 +10,6 @@ const answerCountEl = document.getElementById('answerCount');
 const letterFreqEl = document.getElementById('letterFreq');
 const clearBtn = document.getElementById('clearBtn');
 const addGuessBtn = document.getElementById('addGuess');
-const analyzeBtn = document.getElementById('analyze');
 
 fetch('word-data.json')
   .then(res => res.json())
@@ -20,6 +19,7 @@ fetch('word-data.json')
     updateDisplay();
   });
 
+// Add geuss button
 addGuessBtn.addEventListener('click', () => {
   const guess = guessInput.value.toLowerCase();
   if (guess.length === 5 && /^[a-z]+$/.test(guess)) {
@@ -28,28 +28,38 @@ addGuessBtn.addEventListener('click', () => {
     guessInput.value = '';
     colorSelects.forEach(sel => sel.value = 'grey');
     updateGuessList();
+
+    analyze();
   }
 });
 
-analyzeBtn.addEventListener('click', () => {
-  possibleAnswers = [...wordData.common, ...wordData.other];
-  filterAnswers();
-  updateDisplay();
-});
 
+// Clear geusses button
 clearBtn.addEventListener('click', () => {
   guesses = [];
   possibleAnswers = [...wordData.common, ...wordData.other];
   updateGuessList();
-  updateDisplay();
+
+  analyze();
+
 });
 
+// Run analysis
+function analyze() {
+  possibleAnswers = [...wordData.common, ...wordData.other];
+  filterAnswers();
+  updateDisplay();
+}
+
+
+// Update "guesses" list based on guessList HTML element
 function updateGuessList() {
   guessList.innerHTML = guesses.map(g =>
     `<div><code>${g.word.toUpperCase()}</code> [${g.colors.join(', ')}]</div>`
   ).join('');
 }
 
+// Simple filter possible answers, based on guesslist
 function filterAnswers() {
   for (const { word, colors } of guesses) {
     possibleAnswers = possibleAnswers.filter(answer => {
@@ -72,6 +82,7 @@ function filterAnswers() {
   }
 }
 
+// Count letter frequency in list of answers
 function countLetterFrequency() {
   const freq = {};
   for (const word of possibleAnswers) {
@@ -84,6 +95,7 @@ function countLetterFrequency() {
 
 let chart; // global reference to the chart instance
 
+// Letter frequency charts draw
 function drawLetterFrequencyChart(freqData) {
   const labels = Object.keys(freqData);
   const counts = Object.values(freqData);
@@ -149,23 +161,29 @@ function drawPositionFrequencies(freqData) {
   }
 }
 
-
+// Main update
 function updateDisplay() {
-  const maxShow = 20;
+  const maxShow = 20; // num of possible answers to show\
+
+  // Setup possible answers HTML element
   possibleAnswersEl.innerHTML = possibleAnswers
     .slice(0, maxShow)
     .map(w => `<li>${w}</li>`)
     .join('');
+  // Setup answer count
   answerCountEl.textContent = possibleAnswers.length;
   
+  // Find frequency of letters, sort alphabetically, then graph
   const freq = countLetterFrequency();
   const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
   const sortedFreq = Object.fromEntries(sorted);
   drawLetterFrequencyChart(sortedFreq)
+
+  // Setup 
   letterFreqEl.innerHTML = sorted
     .map(([letter, count]) => `<li>${letter.toUpperCase()}: ${count}</li>`)
     .join('');
 
     const posFreq = countPositionFrequencies(possibleAnswers);
-    drawPositionFrequencies(posFreq);
+    drawPositionFrequencies(posFreq); // Draw frequency graphs
 }
