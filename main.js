@@ -45,7 +45,8 @@ clearBtn.addEventListener('click', () => {
 
 // Run analysis
 function analyze() {
-  const prevPossibleAnswers = [...possibleAnswers];
+  const prevPossibleAnswers = possibleAnswers.filter(w => wordData.common.includes(w));
+
   
   possibleAnswers = [...wordData.common, ...wordData.other];
   filterAnswers();
@@ -233,6 +234,7 @@ function updateDisplay(prevPossibleAnswers) {
   const posFreq = countPositionFrequencies(possibleAnswers);
   drawPositionFrequencies(posFreq); // Draw frequency graphs
 
+  // entropy visualizer
   if (guesses.length > 0) {
     const lastGuess = guesses[guesses.length - 1].word;
 
@@ -240,9 +242,14 @@ function updateDisplay(prevPossibleAnswers) {
     const wordsForPatterns = guesses.length === 1
       ? [...wordData.common, ...wordData.other]
       : prevPossibleAnswers;
-
+      
     const patternFrequencies = generatePatternFrequencies(lastGuess, wordsForPatterns);
-    updateEntropyVisualizer(patternFrequencies);
+
+    const solutionCount = guesses.length === 1
+      ? wordData.common.length
+      : prevPossibleAnswers.length;
+
+    updateEntropyVisualizer(patternFrequencies, solutionCount);
   }
 
   
