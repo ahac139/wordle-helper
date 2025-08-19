@@ -160,6 +160,13 @@ function drawPositionFrequencies(freqData) {
   }
 }
 
+// Example new data
+const newPatterns = [
+  { pattern: "g-g-g-b-b", count: 5 },
+  { pattern: "y-y-g-b-b", count: 3 },
+  { pattern: "b-b-b-b-g", count: 2 }
+];
+
 // Main update
 function updateDisplay() {
   const maxShow = 20; // num of possible answers to show\
@@ -182,4 +189,8 @@ function updateDisplay() {
 
   const posFreq = countPositionFrequencies(possibleAnswers);
   drawPositionFrequencies(posFreq); // Draw frequency graphs
+
+  // Call the visualizer function
+  updateEntropyVisualizer(newPatterns);
 }
+

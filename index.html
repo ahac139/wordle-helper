@@ -70,59 +70,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  
-    
+
   <div id="entropyVisualizer"></div>
+  <script src="visualizer.js"></script>
 
-  <script>
-  const patternFreq = [
-    { pattern: "g-g-y-b-b", count: 3 },
-    { pattern: "b-y-g-b-b", count: 2 },
-    { pattern: "b-b-b-b-g", count: 1 },
-    { pattern: "y-b-b-y-b", count: 4 }
-  ];
 
-  const total = patternFreq.reduce((s, pf) => s + pf.count, 0);
-
-  const colorMap = {
-    g: "#6aaa64", // green
-    y: "#c9b458", // yellow
-    b: "#787c7e"  // grey
-  };
-
-  const svgWidth = 200;
-  const svgHeight = 300; // fixed total height for the whole bar
-  const cellWidth = 20;  // width of each colour cell inside key
-  const keyWidth = cellWidth * 5;
-
-  let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
-
-  let yOffset = 0;
-
-  patternFreq.forEach(pf => {
-    const segHeight = (pf.count / total) * svgHeight;
-
-    // draw background box for the segment
-    svg += `<rect x="0" y="${yOffset}" width="${keyWidth}" height="${segHeight}" fill="white" stroke="#ccc"/>`;
-
-    // draw pattern inside segment (scaled vertically to segment height)
-    const parts = pf.pattern.split("-");
-    parts.forEach((p, colIndex) => {
-      svg += `<rect 
-                x="${colIndex * cellWidth}" 
-                y="${yOffset}" 
-                width="${cellWidth}" 
-                height="${segHeight}" 
-                fill="${colorMap[p]}" />`;
-    });
-
-    yOffset += segHeight;
-  });
-
-  svg += "</svg>";
-
-  document.getElementById("entropyVisualizer").innerHTML = svg;
-  </script>
 
 
 </body>
