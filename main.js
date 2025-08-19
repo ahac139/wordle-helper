@@ -250,6 +250,10 @@ function updateDisplay(prevPossibleAnswers) {
       : prevPossibleAnswers.length;
 
     updateEntropyVisualizer(patternFrequencies, solutionCount);
+  } else {
+    // Clear visualizer and entropy text when no guesses
+    document.getElementById("entropyVisualizer").innerHTML = '';
+    document.getElementById("entropyScore").textContent = '';
   }
 
   
