@@ -45,23 +45,30 @@
   <button id="addGuess">Add Guess</button>
   <button id="clearBtn">Clear Guesses</button>
 
-<div style="display: flex; gap: 20px; align-items: flex-start;">
-  <div>
-    <h2>Letter Freq Chart</h2>
-    <canvas id="letterFreqChart" width="400" height="200"></canvas>
-  </div>
 
-  <div>
-    <h2>Letter Frequencies by Position</h2>
-    <div id="positionFreqContainer" style="display: flex; gap: 10px;">
-      <div class="positionFreq" id="pos0"><h3>P1</h3><div class="freqList"></div></div>
-      <div class="positionFreq" id="pos1"><h3>P2</h3><div class="freqList"></div></div>
-      <div class="positionFreq" id="pos2"><h3>P3</h3><div class="freqList"></div></div>
-      <div class="positionFreq" id="pos3"><h3>P4</h3><div class="freqList"></div></div>
-      <div class="positionFreq" id="pos4"><h3>P5</h3><div class="freqList"></div></div>
+  <div id="entropyVisualizer"></div>
+  <script src="visualizer.js"></script>
+
+  <div id="entropyVisualizer"></div>
+  <div id="entropyScore" style="margin-top: 6px; font-weight: bold;"></div>
+
+  <div style="display: flex; gap: 20px; align-items: flex-start;">
+    <div>
+      <h2>Letter Freq Chart</h2>
+      <canvas id="letterFreqChart" width="400" height="200"></canvas>
+    </div>
+
+    <div>
+      <h2>Letter Frequencies by Position</h2>
+      <div id="positionFreqContainer" style="display: flex; gap: 10px;">
+        <div class="positionFreq" id="pos0"><h3>P1</h3><div class="freqList"></div></div>
+        <div class="positionFreq" id="pos1"><h3>P2</h3><div class="freqList"></div></div>
+        <div class="positionFreq" id="pos2"><h3>P3</h3><div class="freqList"></div></div>
+        <div class="positionFreq" id="pos3"><h3>P4</h3><div class="freqList"></div></div>
+        <div class="positionFreq" id="pos4"><h3>P5</h3><div class="freqList"></div></div>
+      </div>
     </div>
   </div>
-</div>
 
   <h2>Possible Answers: <span id="answerCount">0</span></h2>
   <div id="possibleAnswers"></div>
@@ -69,10 +76,6 @@
   <script type="module" src="main.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-  <div id="entropyVisualizer"></div>
-  <script src="visualizer.js"></script>
 
 
 

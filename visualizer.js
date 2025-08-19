@@ -4,43 +4,64 @@ const colorMap = {
   b: "#787c7e"  // grey
 };
 
-// function to draw/update the visualizer
+// Horizontal visualizer
 function updateEntropyVisualizer(patternFreq, containerId = "entropyVisualizer") {
   if (!patternFreq || patternFreq.length === 0) return;
 
   const numLetters = patternFreq[0].pattern.split('-').length;
-  const cellWidth = 40;
-  const keyWidth = numLetters * cellWidth;
-  const svgHeight = 200;
+  const cellWidth = 40;  // height of each letter row
+  const svgHeight = numLetters * cellWidth; // vertical space for letters
+  
   const totalCount = patternFreq.reduce((s, pf) => s + pf.count, 0);
-  const scale = svgHeight / totalCount;
+  const svgWidth = 1000;  // total width in pixels 
+  const scale = svgWidth / totalCount;  // width per count unit
 
-  let svg = `<svg width="${keyWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
+  let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
 
-  let yOffset = 0;
-  patternFreq.forEach(pf => {
-    const segHeight = pf.count * scale;
+  let xOffset = 0;
+  for (const pf of patternFreq) {
+    const segWidth = pf.count * scale;
 
     // background
-    svg += `<rect x="0" y="${yOffset}" width="${keyWidth}" height="${segHeight}" fill="white" stroke="#ccc"/>`;
+    svg += `<rect
+          x="${xOffset}"
+          y="0"
+          width="${segWidth}"
+          height="${svgHeight}"
+          fill="#787c7e" />`;
 
-    // draw cells
-    pf.pattern.split("-").forEach((l, i) => {
-      svg += `<rect 
-                x="${i * cellWidth}" 
-                y="${yOffset}" 
-                width="${cellWidth}" 
-                height="${segHeight}" 
-                fill="${colorMap[l]}" />`;
+    // draw cells horizontally
+    pf.pattern.split("-").forEach((letter, i) => {
+      svg += `<rect
+                x="${xOffset}"
+                y="${i * cellWidth}"
+                width="${segWidth}"
+                height="${cellWidth}"
+                fill="${colorMap[letter]}" />`;
     });
 
-    yOffset += segHeight;
-  });
+    xOffset += segWidth; // next segment to the right
+  }
 
   svg += "</svg>";
-
   document.getElementById(containerId).innerHTML = svg;
+  
+  // calculate and display entropy
+  const entropy = calculateEntropy(patternFreq);
+  document.getElementById("entropyScore").textContent = `Entropy: ${entropy.toFixed(3)} bits`;
 }
 
-// Optional: export if using modules
-// export { updateEntropyVisualizer };
+// calculate Shannon entropy from pattern frequencies
+function calculateEntropy(patternFreq) {
+  if (!patternFreq || patternFreq.length === 0) return 0;
+
+  const total = patternFreq.reduce((sum, pf) => sum + pf.count, 0);
+  let H = 0;
+
+  for (const pf of patternFreq) {
+    const p = pf.count / total;
+    if (p > 0) H -= p * Math.log2(p);  // log2 for bits
+  }
+
+  return H;
+}

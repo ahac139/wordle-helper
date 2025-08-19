@@ -45,9 +45,11 @@ clearBtn.addEventListener('click', () => {
 
 // Run analysis
 function analyze() {
+  const prevPossibleAnswers = [...possibleAnswers];
+  
   possibleAnswers = [...wordData.common, ...wordData.other];
   filterAnswers();
-  updateDisplay();
+  updateDisplay(prevPossibleAnswers);
 }
 
 
@@ -160,13 +162,6 @@ function drawPositionFrequencies(freqData) {
   }
 }
 
-// Example new data
-const newPatterns = [
-  { pattern: "g-g-g-b-b", count: 5 },
-  { pattern: "y-y-g-b-b", count: 3 },
-  { pattern: "b-b-b-b-g", count: 2 }
-];
-
 function generatePatternFrequencies(guess, answers) {
   const freqMap = {};
 
@@ -206,14 +201,17 @@ function generatePatternFrequencies(guess, answers) {
   }
 
   // Convert freqMap to sorted array for display
-  return Object.entries(freqMap)
-    .map(([pattern, count]) => ({ pattern, count }))
-    .sort((a, b) => b.count - a.count);
+  const result = Object.entries(freqMap)
+  .map(([pattern, count]) => ({ pattern, count }))
+  .sort((a, b) => b.count - a.count);
+
+  console.log('Pattern frequencies:', result);
+  return result;
 }
 
 
 // Main update
-function updateDisplay() {
+function updateDisplay(prevPossibleAnswers) {
   const maxShow = 50; // num of possible answers to show\
 
   // Setup possible answers HTML element
@@ -235,10 +233,18 @@ function updateDisplay() {
   const posFreq = countPositionFrequencies(possibleAnswers);
   drawPositionFrequencies(posFreq); // Draw frequency graphs
 
-  const lastGuess = guesses[guesses.length - 1].word;
-  const patternFrequencies = generatePatternFrequencies(lastGuess, possibleAnswers);
+  if (guesses.length > 0) {
+    const lastGuess = guesses[guesses.length - 1].word;
 
-  // Call the visualizer function
-  updateEntropyVisualizer(patternFrequencies);
+    // Use full word list for first guess, filtered possibleAnswers for later guesses
+    const wordsForPatterns = guesses.length === 1
+      ? [...wordData.common, ...wordData.other]
+      : prevPossibleAnswers;
+
+    const patternFrequencies = generatePatternFrequencies(lastGuess, wordsForPatterns);
+    updateEntropyVisualizer(patternFrequencies);
+  }
+
+  
 }
 
