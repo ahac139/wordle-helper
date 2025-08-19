@@ -167,6 +167,51 @@ const newPatterns = [
   { pattern: "b-b-b-b-g", count: 2 }
 ];
 
+function generatePatternFrequencies(guess, answers) {
+  const freqMap = {};
+
+  for (const answer of answers) {
+    const pattern = [];
+
+    // Track letters used for green/yellow to handle duplicates
+    const answerLetters = answer.split('');
+    const guessLetters = guess.split('');
+    const used = Array(5).fill(false);
+
+    // First pass: mark greens
+    for (let i = 0; i < 5; i++) {
+      if (guessLetters[i] === answerLetters[i]) {
+        pattern[i] = 'g';
+        used[i] = true;
+      } else {
+        pattern[i] = null; // placeholder
+      }
+    }
+
+    // Second pass: mark yellows and greys
+    for (let i = 0; i < 5; i++) {
+      if (pattern[i]) continue; // already green
+
+      const idx = answerLetters.findIndex((l, j) => l === guessLetters[i] && !used[j]);
+      if (idx !== -1) {
+        pattern[i] = 'y';
+        used[idx] = true;
+      } else {
+        pattern[i] = 'b';
+      }
+    }
+
+    const key = pattern.join('-');
+    freqMap[key] = (freqMap[key] || 0) + 1;
+  }
+
+  // Convert freqMap to sorted array for display
+  return Object.entries(freqMap)
+    .map(([pattern, count]) => ({ pattern, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+
 // Main update
 function updateDisplay() {
   const maxShow = 20; // num of possible answers to show\
@@ -190,7 +235,10 @@ function updateDisplay() {
   const posFreq = countPositionFrequencies(possibleAnswers);
   drawPositionFrequencies(posFreq); // Draw frequency graphs
 
+  const lastGuess = guesses[guesses.length - 1].word;
+  const patternFrequencies = generatePatternFrequencies(lastGuess, possibleAnswers);
+
   // Call the visualizer function
-  updateEntropyVisualizer(newPatterns);
+  updateEntropyVisualizer(patternFrequencies);
 }
 
