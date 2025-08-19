@@ -214,7 +214,7 @@ function generatePatternFrequencies(guess, answers) {
 
 // Main update
 function updateDisplay() {
-  const maxShow = 20; // num of possible answers to show\
+  const maxShow = 50; // num of possible answers to show\
 
   // Setup possible answers HTML element
   possibleAnswersEl.innerHTML = possibleAnswers
