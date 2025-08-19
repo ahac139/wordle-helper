@@ -70,5 +70,49 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  
+  
+  <div id="entropyVisualizer"></div>
+
+  <script>
+  const patternFreq = [
+    { pattern: "g-g-y-b-b", count: 3 },
+    { pattern: "b-y-g-b-b", count: 2 },
+    { pattern: "b-b-b-b-g", count: 1 },
+    { pattern: "y-b-b-y-b", count: 4 }
+  ];
+
+  const colorMap = {
+    g: "#6aaa64",  // green
+    y: "#c9b458",  // yellow
+    b: "#787c7e"   // grey
+  };
+
+  const rowHeight = 30;
+  const cellWidth = 30;
+  const spacing = 5;
+  const svgHeight = patternFreq.length * (rowHeight + spacing);
+  const svgWidth = cellWidth * 5 + 100; // extra for labels
+
+  let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
+
+  patternFreq.forEach((pf, rowIndex) => {
+    const parts = pf.pattern.split("-");
+    const y = rowIndex * (rowHeight + spacing);
+
+    parts.forEach((p, colIndex) => {
+      const x = colIndex * cellWidth;
+      svg += `<rect x="${x}" y="${y}" width="${cellWidth}" height="${rowHeight}" fill="${colorMap[p]}" />`;
+    });
+
+    // Add label with count at the end
+    svg += `<text x="${cellWidth*5 + 10}" y="${y + rowHeight/1.5}" font-size="14" fill="black">${pf.count}</text>`;
+  });
+
+  svg += "</svg>";
+
+  document.getElementById("entropyVisualizer").innerHTML = svg;
+  </script>
+
 </body>
 </html>
